@@ -1,0 +1,8 @@
+stages:
+  - pre-commit
+
+pre-commit:
+  stage: pre-commit
+  image: flaudisio/pre-commit:latest
+  script:
+    - run-ci-tests
