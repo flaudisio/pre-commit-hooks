@@ -6,7 +6,9 @@ python:
 install:
   - pip install -U pre-commit
 
-script:
+before_script:
   - pre-commit --version
+
+script:
   - pre-commit install
   - pre-commit run --all-files --verbose
