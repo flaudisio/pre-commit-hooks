@@ -8,11 +8,9 @@ main()
 
     for filepath in "$@"; do
         if ! grep -q '"builders"' "$filepath" ; then
-            echo "NOTICE: ignoring '$filepath' (not a Packer template)"
+            # Not a Packer template file, ignore it.
             continue
         fi
-
-        echo "Checking '$filepath' ..."
 
         pushd "$( dirname "$filepath" )" > /dev/null
 
