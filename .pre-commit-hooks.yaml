@@ -5,3 +5,4 @@
   entry: pre_commit_hooks/packer-validate.sh
   language: script
   files: \.json$
+  types: [file, json]
