@@ -14,6 +14,7 @@ main()
 
         pushd "$( dirname "$filepath" )" > /dev/null
 
+        echo "Validating: $filepath"
         packer validate "$( basename "$filepath" )"
 
         popd > /dev/null
