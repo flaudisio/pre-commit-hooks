@@ -5,6 +5,7 @@ set -e -u -o pipefail
 main()
 {
     local filepath
+    local error=0
 
     for filepath in "$@" ; do
         if ! grep -q '"builders"' "$filepath" ; then
@@ -15,10 +16,17 @@ main()
         pushd "$( dirname "$filepath" )" > /dev/null
 
         echo "Validating: $filepath"
-        packer validate "$( basename "$filepath" )"
+
+        if ! packer validate "$( basename "$filepath" )" ; then
+            error=1
+        fi
 
         popd > /dev/null
     done
+
+    if [[ $error -ne 0 ]] ; then
+        exit 1
+    fi
 }
 
 
