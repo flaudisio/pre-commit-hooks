@@ -6,3 +6,10 @@
   language: script
   files: \.json$
   types: [file, json]
+
+- id: check-zero-width-spaces
+  name: Check zero width spaces
+  description: Forbid files which have one or more zero width spaces (U+200B).
+  entry: hooks/check-zero-width-spaces.sh
+  language: script
+  types: [text]
