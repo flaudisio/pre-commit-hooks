@@ -2,7 +2,7 @@
 - id: packer-validate
   name: Packer Validate
   description: Run 'packer validate' on Packer template files.
-  entry: pre_commit_hooks/packer-validate.sh
+  entry: hooks/packer-validate.sh
   language: script
   files: \.json$
   types: [file, json]
