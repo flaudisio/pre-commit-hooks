@@ -9,7 +9,7 @@ main()
     local line_number
     local error=0
 
-    for filepath in "$@"; do
+    for filepath in "$@" ; do
         found_lines="$( grep --line-number "$ZeroWidthSpace" "$filepath" | cut -d ':' -f 1 )"
 
         if [[ -n "$found_lines" ]] ; then

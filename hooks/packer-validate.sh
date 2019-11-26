@@ -6,7 +6,7 @@ main()
 {
     local filepath
 
-    for filepath in "$@"; do
+    for filepath in "$@" ; do
         if ! grep -q '"builders"' "$filepath" ; then
             # Not a Packer template file, ignore it.
             continue
