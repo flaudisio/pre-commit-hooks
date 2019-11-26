@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e -u -o pipefail
+
 ZeroWidthSpace="$( printf '%b' '\u200b' )"
 
 main()
@@ -10,7 +12,7 @@ main()
     local error=0
 
     for filepath in "$@" ; do
-        found_lines="$( grep --line-number "$ZeroWidthSpace" "$filepath" | cut -d ':' -f 1 )"
+        found_lines="$( grep --line-number "$ZeroWidthSpace" "$filepath" || true | cut -d ':' -f 1 )"
 
         if [[ -n "$found_lines" ]] ; then
             error=1
@@ -21,7 +23,9 @@ main()
         fi
     done
 
-    [[ $error -eq 0 ]] || exit 1
+    if [[ $error -ne 0 ]] ; then
+        exit 1
+    fi
 }
 
 
