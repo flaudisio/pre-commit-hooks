@@ -2,22 +2,33 @@
 
 set -e -u -o pipefail
 
+HadolintArgs=""
+
+add_hadolint_arg()
+{
+    local arg
+    local value
+
+    if [[ "$1" == *=* ]] ; then
+        # $1 is like --arg=VALUE
+        HadolintArgs="$HadolintArgs $1"
+    else
+        # $1 is like --arg VALUE  (including the space)
+        arg="${1%% *}"
+        value="${1##* }"
+
+        HadolintArgs="$HadolintArgs $arg=$value"
+    fi
+}
+
 main()
 {
-    local hadolintOpts=""
     local error=0
 
     while true ; do
         case $1 in
             --ignore*)
-                if [[ "$1" == *=* ]] ; then
-                    # Example $1: --ignore=DL3018
-                    hadolintOpts="$hadolintOpts $1"
-                else
-                    # Example $1: --ignore DL3018
-                    hadolintOpts="$hadolintOpts ${1%% *}=${1##* }"
-                fi
-
+                add_hadolint_arg "$1"
                 shift
             ;;
 
@@ -28,7 +39,7 @@ main()
     done
 
     for filepath in "$@" ; do
-        if ! hadolint $hadolintOpts "$filepath" ; then
+        if ! hadolint $HadolintArgs "$filepath" ; then
             error=1
         fi
     done
