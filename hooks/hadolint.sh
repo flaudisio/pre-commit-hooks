@@ -6,19 +6,22 @@ HadolintArgs=""
 
 add_hadolint_arg()
 {
-    local arg
+    local arg=""
+    local param
     local value
 
-    if [[ "$1" == *=* ]] ; then
-        # $1 is like --arg=VALUE
-        HadolintArgs="$HadolintArgs $1"
-    else
-        # $1 is like --arg VALUE  (including the space)
-        arg="${1%% *}"
+    if [[ "$1" == *' '* ]] ; then
+        # $1 has a space, e.g. "--arg value"
+        param="${1%% *}"
         value="${1##* }"
 
-        HadolintArgs="$HadolintArgs $arg=$value"
+        arg="$param=$value"
+    else
+        # Use $1 as is, e.g. "--arg" or "--arg=value"
+        arg="$1"
     fi
+
+    HadolintArgs="$HadolintArgs $arg"
 }
 
 main()
@@ -27,7 +30,7 @@ main()
 
     while true ; do
         case $1 in
-            --ignore*)
+            -*)
                 add_hadolint_arg "$1"
                 shift
             ;;
