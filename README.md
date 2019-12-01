@@ -18,17 +18,17 @@ Some hooks for [pre-commit](https://pre-commit.com/).
 ## How to install
 
 1. Install dependencies:
-   - pre-commit
-   - Hadolint (`hadolint`)
-   - Packer (`packer-validate`)
+   - [pre-commit](https://pre-commit.com/#install)
+   - Hadolint (for `hadolint`)
+   - Packer (for `packer-validate`)
 
-1. Install the pre-commit hook globally:
+2. Install the pre-commit hook globally:
 
     ```console
     $ pre-commit init-templatedir -t pre-commit ~/.git-template
     ```
 
-1. Create the `.pre-commit-config.yaml` file:
+3. Create the `.pre-commit-config.yaml` file:
 
     ```console
     $ cd /path/to/my/repo/
@@ -37,10 +37,10 @@ Some hooks for [pre-commit](https://pre-commit.com/).
 
     **Tip:** use the example from the next section as a start point.
 
-1. Run:
+4. Run:
 
     ```console
-    pre-commit run -a
+    $ pre-commit run -a
     ```
 
 ## Full example
