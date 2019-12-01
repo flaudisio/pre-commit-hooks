@@ -10,5 +10,9 @@ before_script:
   - pre-commit --version
 
 script:
-  - pre-commit install
   - pre-commit run --all-files --verbose
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always
