@@ -15,6 +15,26 @@ Some useful hooks for [pre-commit](https://pre-commit.com/).
 [hadolint-configure]: https://github.com/hadolint/hadolint#configure
 [hadolint-rules]: https://github.com/hadolint/hadolint#rules
 
+## Full example
+
+```yaml
+---
+repos:
+  - repo: git://github.com/flaudisio/pre-commit-hooks
+    rev: v0.5.1
+    hooks:
+      - id: check-zero-width-spaces
+      - id: hadolint
+        args:
+          - --config .hadolint.strict.yaml
+          - --ignore DL3013
+          - --ignore DL3018
+          - --trusted-registry registry.example.com:5000
+        exclude: ^cookiecutter/
+      - id: packer-validate
+        files: ^templates/.+\.json$
+```
+
 ## License
 
 [MIT](LICENSE).
