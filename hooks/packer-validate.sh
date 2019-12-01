@@ -24,11 +24,6 @@ main()
     set_colors
 
     for filepath in "$@" ; do
-        if ! grep -q '"builders"' "$filepath" ; then
-            # Not a Packer template file, ignore it.
-            continue
-        fi
-
         pushd "$( dirname "$filepath" )" > /dev/null
 
         echo -e "${CBold}${CLightCyan}==> Validating: ${filepath}${CNormal}"
