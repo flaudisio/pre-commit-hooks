@@ -4,14 +4,17 @@ set -e -u -o pipefail
 
 # Colors
 CBold=''
-CLightCyan=''
+CError=''
 CNormal=''
+
+# Setup
+TempFile="$( mktemp /tmp/pre-commit-packer-validate-XXXXXX.log )"
 
 set_colors()
 {
     if [[ -n "$TERM" ]] ; then
         CBold='\e[1m'
-        CLightCyan='\e[96m'
+        CError='\e[91m'  # Light red
         CNormal='\e[0m'
     fi
 }
@@ -21,19 +24,26 @@ main()
     local filepath
     local error=0
 
+    trap "rm -f '$TempFile'" EXIT
+
     set_colors
 
     for filepath in "$@" ; do
         pushd "$( dirname "$filepath" )" > /dev/null
 
-        echo -e "${CBold}${CLightCyan}==> Validating: ${filepath}${CNormal}"
-        echo
-
-        if ! packer validate "$( basename "$filepath" )" ; then
+        if ! packer validate "$( basename "$filepath" )" > "$TempFile" 2>&1 ; then
             error=1
+
+            echo -e "${CBold}${CError}==> ${filepath}${CNormal}"
+            echo
+
+            # Delete trailing blank lines at the end of the file
+            # and print a new line for consistent readability
+            # Ref: https://stackoverflow.com/a/23894449
+            tac "$TempFile" | sed -e '/./,$!d' | tac
+            echo
         fi
 
-        echo
         popd > /dev/null
     done
 
