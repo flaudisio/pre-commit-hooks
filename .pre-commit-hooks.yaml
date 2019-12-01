@@ -6,6 +6,14 @@
   language: script
   types: [text]
 
+- id: hadolint
+  name: Hadolint
+  description: Run Hadolint on Dockerfiles.
+  entry: hooks/hadolint.sh
+  language: script
+  files: ^(.+\.)?Dockerfile|Dockerfile(\..+)?$
+  types: [file, dockerfile]
+
 - id: packer-validate
   name: Packer Validate
   description: Run 'packer validate' on Packer template files.
