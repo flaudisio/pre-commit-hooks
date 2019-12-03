@@ -29,6 +29,8 @@ main()
     set_colors
 
     for filepath in "$@" ; do
+        # Packer must run in the template's directory so relative paths
+        # can be found (e.g. "../scripts/provision.sh")
         pushd "$( dirname "$filepath" )" > /dev/null
 
         if ! packer validate "$( basename "$filepath" )" > "$TempFile" 2>&1 ; then
@@ -37,8 +39,8 @@ main()
             echo -e "${CBold}${CError}==> ${filepath}${CNormal}"
             echo
 
-            # Delete trailing blank lines at the end of the file
-            # and print a new line for consistent readability
+            # Delete trailing blank lines at end of file and print a new line
+            # for consistent readability
             # Ref: https://stackoverflow.com/a/23894449
             tac "$TempFile" | sed -e '/./,$!d' | tac
             echo
