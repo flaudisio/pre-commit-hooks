@@ -1,0 +1,20 @@
+---
+# yamllint disable rule:truthy
+
+name: main
+
+on:
+  - push
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    container:
+      image: flaudisio/pre-commit:latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Run pre-commit
+        run: |
+          pre-commit --version
+          pre-commit run --all-files --verbose --color always
