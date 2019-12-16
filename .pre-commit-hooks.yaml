@@ -11,7 +11,6 @@
   description: Run Hadolint on Dockerfiles.
   entry: hooks/hadolint.sh
   language: script
-  files: (.+\.)?Dockerfile(\..+)?$
   types: [file, dockerfile]
 
 - id: packer-validate
