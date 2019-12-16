@@ -9,10 +9,10 @@ add_hadolint_arg()
     local param
     local value
 
-    if [[ "$1" == *' '* ]] ; then
+    if [[ "$1" == *' '* && "$1" != *'='* ]] ; then
         # $1 has a space, e.g. "--param value"
         param="${1%% *}"
-        value="${1##* }"
+        value="${1#* }"
 
         HadolintArgs+=("$param" "$value")
     else
