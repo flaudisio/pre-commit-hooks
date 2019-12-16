@@ -1,4 +1,1 @@
 extends: default
-
-ignore: |
-  .travis.yml
