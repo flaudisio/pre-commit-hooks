@@ -50,7 +50,7 @@ Some hooks for [pre-commit](https://pre-commit.com/).
 
 repos:
   - repo: git://github.com/flaudisio/pre-commit-hooks
-    rev: v0.7.0
+    rev: v0.7.1
     hooks:
       - id: check-zero-width-spaces
       - id: hadolint
