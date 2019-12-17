@@ -12,7 +12,7 @@ main()
     local error=0
 
     for filepath in "$@" ; do
-        found_lines="$( grep --line-number "$ZeroWidthSpace" "$filepath" || true | cut -d ':' -f 1 )"
+        found_lines="$( grep -n "$ZeroWidthSpace" "$filepath" || true | cut -d ':' -f 1 )"
 
         if [[ -n "$found_lines" ]] ; then
             error=1
