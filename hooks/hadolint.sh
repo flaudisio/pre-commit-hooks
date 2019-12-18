@@ -23,6 +23,7 @@ add_hadolint_arg()
 
 main()
 {
+    local filepath
     local error=0
 
     while true ; do
