@@ -14,13 +14,15 @@ main()
     for filepath in "$@" ; do
         found_lines="$( grep -n "$ZeroWidthSpace" "$filepath" || true )"
 
-        if [[ -n "$found_lines" ]] ; then
-            error=1
-
-            while read -r line_number ; do
-                echo "${filepath}:${line_number} Found one or more zero-width-spaces (U+200B)"
-            done <<< "$found_lines"
+        if [[ -z "$found_lines" ]] ; then
+            continue
         fi
+
+        error=1
+
+        while read -r line_number ; do
+            echo "${filepath}:${line_number} Found one or more zero-width-spaces (U+200B)"
+        done <<< "$found_lines"
     done
 
     if [[ $error -ne 0 ]] ; then
