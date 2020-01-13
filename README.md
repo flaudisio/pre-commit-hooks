@@ -59,7 +59,7 @@ repos:
           - --ignore DL3013
           - --ignore DL3018
           - --trusted-registry registry.example.com:5000
-        exclude: ^cookiecutter/
+        exclude: ^cookiecutter/.+/Dockerfile$
       - id: packer-validate
         files: ^templates/.+\.json$
 ```
