@@ -36,14 +36,14 @@ main()
         if ! packer validate "$( basename "$filepath" )" > "$TempFile" 2>&1 ; then
             error=1
 
-            echo -e "${CBold}${CError}==> ${filepath}${CNormal}"
-            echo
+            echo -e "${CBold}${CError}==> ${filepath}${CNormal}" >&2
+            echo >&2
 
             # Delete trailing blank lines at end of file and print a new line
             # for consistent readability
             # Ref: https://stackoverflow.com/a/23894449
-            tac "$TempFile" | sed -e '/./,$!d' | tac
-            echo
+            tac "$TempFile" | sed -e '/./,$!d' | tac >&2
+            echo >&2
         fi
 
         popd > /dev/null

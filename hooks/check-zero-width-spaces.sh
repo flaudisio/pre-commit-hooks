@@ -21,7 +21,7 @@ main()
         error=1
 
         while read -r line_number ; do
-            echo "${filepath}:${line_number} Found one or more zero-width-spaces (U+200B)"
+            echo "${filepath}:${line_number} Found one or more zero-width-spaces (U+200B)" >&2
         done <<< "$found_lines"
     done
 
