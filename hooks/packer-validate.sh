@@ -10,6 +10,8 @@ CNormal=''
 # Setup
 TempFile="$( mktemp /tmp/pre-commit-packer-validate-XXXXXX.log )"
 
+trap "rm -f '$TempFile'" EXIT
+
 set_colors()
 {
     if [[ -n "$TERM" ]] ; then
@@ -23,8 +25,6 @@ main()
 {
     local filepath
     local error=0
-
-    trap "rm -f '$TempFile'" EXIT
 
     set_colors
 
