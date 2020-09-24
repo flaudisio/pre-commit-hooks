@@ -17,3 +17,7 @@ repos:
     hooks:
       - id: yamllint
         entry: yamllint --strict
+  - repo: git://github.com/gruntwork-io/pre-commit
+    rev: v0.1.10
+    hooks:
+      - id: shellcheck
