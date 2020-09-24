@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-set -e -u -o pipefail
+set -e
+set -u
+set -o pipefail
 
 # Colors
 CBold=''
@@ -24,7 +26,7 @@ set_colors()
 main()
 {
     local filepath
-    local error=0
+    local exit_code=0
 
     set_colors
 
@@ -34,7 +36,7 @@ main()
         pushd "$( dirname "$filepath" )" > /dev/null
 
         if ! packer validate "$( basename "$filepath" )" > "$TempFile" 2>&1 ; then
-            error=1
+            exit_code=1
 
             echo -e "${CBold}${CError}==> ${filepath}${CNormal}" >&2
             echo >&2
@@ -49,9 +51,7 @@ main()
         popd > /dev/null
     done
 
-    if [[ $error -ne 0 ]] ; then
-        exit 1
-    fi
+    exit $exit_code
 }
 
 

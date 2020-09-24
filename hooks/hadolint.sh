@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-set -e -u -o pipefail
+set -e
+set -u
+set -o pipefail
 
 HadolintArgs=()
 
@@ -24,7 +26,7 @@ add_hadolint_arg()
 main()
 {
     local filepath
-    local error=0
+    local exit_code=0
 
     while true ; do
         case $1 in
@@ -40,13 +42,11 @@ main()
 
     for filepath in "$@" ; do
         if ! hadolint "${HadolintArgs[@]}" "$filepath" ; then
-            error=1
+            exit_code=1
         fi
     done
 
-    if [[ $error -ne 0 ]] ; then
-        exit 1
-    fi
+    exit $exit_code
 }
 
 
