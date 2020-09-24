@@ -26,22 +26,32 @@ main()
     local filedir
     local exit_code=0
 
+    local line_number
+    local found_lines
+    local found_line
+
     for filepath in "$@" ; do
         filedir="$( dirname "$filepath" )"
 
         log_debug "Processing: $filepath (filedir: $filedir)"
 
-        if ! grep '^variable' "$filepath" | cut -d '"' -f 2 > "$TempFile" ; then
+        found_lines="$( grep -n '^variable' "$filepath" || true )"
+
+        if [[ -z "$found_lines" ]] ; then
             log_debug "No declared variables found in $filepath; ignoring"
             continue
         fi
 
-        while read -r var_name ; do
+        # Example: 5:variable "environment" {
+        while read -r found_line ; do
+            line_number="${found_line%%:*}"
+            var_name="$( cut -d '"' -f 2 <<< "$found_line" )"
+
             if ! grep -E -q "\Wvar\.${var_name}(\W|$)" "$filedir"/*.tf ; then
-                echo "${filepath}: variable not in use: $var_name" >&2
+                echo "${filepath}:${line_number} Variable not in use: ${var_name}" >&2
                 exit_code=1
             fi
-        done < "$TempFile"
+        done <<< "$found_lines"
     done
 
     exit $exit_code
