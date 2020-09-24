@@ -64,6 +64,7 @@ repos:
         exclude: ^cookiecutter/.+/Dockerfile$
       - id: packer-validate
         files: ^templates/.+\.json$
+      - id: terraform-unused-variables
 ```
 
 ## License
