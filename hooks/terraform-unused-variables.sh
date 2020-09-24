@@ -6,6 +6,10 @@ set -o pipefail
 
 : "${DEBUG:=""}"
 
+# Colors
+CBold=''
+CNormal=''
+
 # Setup
 TempFile="$( mktemp /tmp/pre-commit-terraform-unused-variables-XXXXXX.txt )"
 
@@ -30,6 +34,12 @@ main()
     local found_lines
     local found_line
 
+    # Configure colors
+    if [[ -n "$TERM" ]] ; then
+        CBold='\e[1m'
+        CNormal='\e[0m'
+    fi
+
     for filepath in "$@" ; do
         filedir="$( dirname "$filepath" )"
 
@@ -48,7 +58,7 @@ main()
             var_name="$( cut -d '"' -f 2 <<< "$found_line" )"
 
             if ! grep -E -q "\Wvar\.${var_name}(\W|$)" "$filedir"/*.tf ; then
-                echo "${filepath}:${line_number} Variable not in use: ${var_name}" >&2
+                echo -e "${filepath}:${line_number} Variable not in use: ${CBold}${var_name}${CNormal}" >&2
                 exit_code=1
             fi
         done <<< "$found_lines"
