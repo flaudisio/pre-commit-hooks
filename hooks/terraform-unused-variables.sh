@@ -9,7 +9,7 @@ set -o pipefail
 # Setup
 TempFile="$( mktemp /tmp/pre-commit-terraform-unused-variables-XXXXXX.txt )"
 
-trap "rm -f '$TempFile'" EXIT
+trap 'rm -f "$TempFile"' EXIT
 
 log_debug()
 {

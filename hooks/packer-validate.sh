@@ -12,7 +12,7 @@ CNormal=''
 # Setup
 TempFile="$( mktemp /tmp/pre-commit-packer-validate-XXXXXX.log )"
 
-trap "rm -f '$TempFile'" EXIT
+trap 'rm -f "$TempFile"' EXIT
 
 set_colors()
 {
