@@ -1,6 +1,6 @@
 # pre-commit hooks
 
-Some hooks for [pre-commit](https://pre-commit.com/).
+Miscellaneous hooks for [pre-commit](https://pre-commit.com/).
 
 ## Hooks available
 
@@ -19,8 +19,8 @@ Some hooks for [pre-commit](https://pre-commit.com/).
 
 1. Install dependencies:
    - [pre-commit](https://pre-commit.com/#install)
-   - Hadolint (for `hadolint`)
-   - Packer (for `packer-validate`)
+   - [Hadolint](https://github.com/hadolint/hadolint/releases) (for `hadolint`)
+   - [Packer](https://www.packer.io/downloads/) (for `packer-validate`)
 
 2. Install the pre-commit hook globally:
 
