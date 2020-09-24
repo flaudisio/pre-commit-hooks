@@ -12,6 +12,8 @@ Miscellaneous hooks for [pre-commit](https://pre-commit.com/).
 
 - `packer-validate` - Run [`packer validate`](https://www.packer.io/docs/commands/validate.html) on JSON files.
 
+- `terraform-unused-variables` - Check unused Terraform variables.
+
 [hadolint-configure]: https://github.com/hadolint/hadolint#configure
 [hadolint-rules]: https://github.com/hadolint/hadolint#rules
 

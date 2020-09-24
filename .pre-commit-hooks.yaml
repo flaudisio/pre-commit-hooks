@@ -20,3 +20,11 @@
   language: script
   files: \.json$
   types: [file, json]
+
+- id: terraform-unused-variables
+  name: Check unused Terraform variables
+  description: Forbid unused Terraform variables.
+  entry: hooks/terraform-unused-variables.sh
+  language: script
+  files: (vars|variables)\.tf$
+  types: [text]
