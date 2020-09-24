@@ -9,9 +9,10 @@ ZeroWidthSpace="$( printf '%b' '\u200b' )"
 main()
 {
     local filepath
+    local exit_code=0
+
     local found_lines
     local line_number
-    local exit_code=0
 
     for filepath in "$@" ; do
         found_lines="$( grep -n "$ZeroWidthSpace" "$filepath" || true )"
