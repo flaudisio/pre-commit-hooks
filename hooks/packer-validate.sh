@@ -14,21 +14,17 @@ TempFile="$( mktemp /tmp/pre-commit-packer-validate-XXXXXX.log )"
 
 trap 'rm -f "$TempFile"' EXIT
 
-set_colors()
-{
-    if [[ -n "$TERM" ]] ; then
-        CBold='\e[1m'
-        CError='\e[91m'  # Light red
-        CNormal='\e[0m'
-    fi
-}
-
 main()
 {
     local filepath
     local exit_code=0
 
-    set_colors
+    # Configure colors
+    if [[ -n "$TERM" ]] ; then
+        CBold='\e[1m'
+        CError='\e[91m'  # Light red
+        CNormal='\e[0m'
+    fi
 
     for filepath in "$@" ; do
         # Packer must run in the template's directory so relative paths
