@@ -10,11 +10,6 @@ set -o pipefail
 CBold=''
 CNormal=''
 
-# Setup
-TempFile="$( mktemp /tmp/pre-commit-terraform-unused-variables-XXXXXX )"
-
-trap 'rm -f "$TempFile"' EXIT
-
 log_debug()
 {
     if [[ -z "$DEBUG" ]] ; then
