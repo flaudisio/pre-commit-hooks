@@ -11,8 +11,18 @@ jobs:
     container:
       image: flaudisio/pre-commit:latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+      - name: Install hook dependencies
+        run: |
+          SHELLCHECK_VERSION="$( grep '^shellcheck ' .tool-versions | awk '{ print $2 }' )"
+          curl --fail -sSL https://github.com/koalaman/shellcheck/releases/download/v${SHELLCHECK_VERSION}/shellcheck-v${SHELLCHECK_VERSION}.linux.x86_64.tar.xz \
+            | tar -xvJ -f - shellcheck-v${SHELLCHECK_VERSION}/shellcheck
+          mv -v shellcheck-*/shellcheck /usr/local/bin/shellcheck
+          chmod -v 755 /usr/local/bin/shellcheck
+      - name: Check dependencies
+        run: |
+          shellcheck --version
+          pre-commit --version
       - name: Run pre-commit
         run: |
-          pre-commit --version
           pre-commit run --all-files --verbose --show-diff-on-failure --color always
