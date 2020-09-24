@@ -4,7 +4,7 @@
   description: Forbid files which have one or more zero width spaces (U+200B).
   entry: hooks/check-zero-width-spaces.sh
   language: script
-  types: [text]
+  types: [file]
 
 - id: hadolint
   name: Hadolint
