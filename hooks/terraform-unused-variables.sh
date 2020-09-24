@@ -11,7 +11,7 @@ CBold=''
 CNormal=''
 
 # Setup
-TempFile="$( mktemp /tmp/pre-commit-terraform-unused-variables-XXXXXX.txt )"
+TempFile="$( mktemp /tmp/pre-commit-terraform-unused-variables-XXXXXX )"
 
 trap 'rm -f "$TempFile"' EXIT
 
