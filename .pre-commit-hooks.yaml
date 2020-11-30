@@ -1,4 +1,12 @@
 ---
+- id: check-terraform-unused-variables
+  name: Check unused Terraform variables
+  description: Forbid unused Terraform variables.
+  entry: hooks/check-terraform-unused-variables.sh
+  language: script
+  files: (vars|variables)\.tf$
+  types: [text]
+
 - id: check-zero-width-spaces
   name: Check zero width spaces
   description: Forbid files which have one or more zero width spaces (U+200B).
@@ -20,11 +28,3 @@
   language: script
   files: \.json$
   types: [file, json]
-
-- id: terraform-unused-variables
-  name: Check unused Terraform variables
-  description: Forbid unused Terraform variables.
-  entry: hooks/terraform-unused-variables.sh
-  language: script
-  files: (vars|variables)\.tf$
-  types: [text]
