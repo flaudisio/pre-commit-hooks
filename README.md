@@ -52,7 +52,7 @@ Miscellaneous hooks for [pre-commit](https://pre-commit.com/).
 
 repos:
   - repo: https://github.com/flaudisio/pre-commit-hooks
-    rev: v0.10.0
+    rev: v0.11.0
     hooks:
       - id: check-zero-width-spaces
       - id: hadolint
