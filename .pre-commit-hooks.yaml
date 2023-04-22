@@ -13,6 +13,14 @@
   language: script
   types: [file, dockerfile]
 
+- id: nomad-fmt
+  name: Nomad format
+  description: Run 'nomad fmt' on Nomad manifests.
+  entry: hooks/nomad-fmt.sh
+  language: script
+  files: \.nomad(\.hcl)?$
+  types: [file]
+
 - id: packer-validate
   name: Packer Validate
   description: Run 'packer validate' on JSON files.

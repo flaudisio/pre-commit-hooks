@@ -10,6 +10,8 @@ Miscellaneous hooks for [pre-commit](https://pre-commit.com/).
   - You may use any Hadolint CLI argument, e.g. [`--config example.yaml`][hadolint-configure], [`--ignore RULE`][hadolint-rules],
     `--trusted-registry REGISTRY`, etc. See the [example](#full-example) below.
 
+- `nomad-fmt` - Run [`nomad fmt`](https://developer.hashicorp.com/nomad/docs/commands/fmt) on Nomad manifests.
+
 - `packer-validate` - Run [`packer validate`](https://www.packer.io/docs/commands/validate.html) on JSON files.
 
 [hadolint-configure]: https://github.com/hadolint/hadolint#configure
