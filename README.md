@@ -4,8 +4,6 @@ Miscellaneous hooks for [pre-commit](https://pre-commit.com/).
 
 ## Hooks available
 
-- `check-terraform-unused-variables` - Check unused Terraform variables.
-
 - `check-zero-width-spaces` - Forbid files which have one or more zero width spaces (U+200B).
 
 - `hadolint` - Run [Hadolint](https://github.com/hadolint/hadolint) on Dockerfiles.
@@ -64,7 +62,6 @@ repos:
         exclude: ^cookiecutter/.+/Dockerfile$
       - id: packer-validate
         files: ^templates/.+\.json$
-      - id: check-terraform-unused-variables
 ```
 
 ## License
