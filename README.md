@@ -7,49 +7,48 @@ Miscellaneous hooks for [pre-commit](https://pre-commit.com/).
 - `check-zero-width-spaces` - Forbid files which have one or more zero width spaces (U+200B).
 
 - `hadolint` - Run [Hadolint](https://github.com/hadolint/hadolint) on Dockerfiles.
-  - You may use any Hadolint CLI argument, e.g. [`--config example.yaml`][hadolint-configure], [`--ignore RULE`][hadolint-rules],
-    `--trusted-registry REGISTRY`, etc. See the [example](#full-example) below.
+  - You may use any Hadolint CLI argument, e.g. [`--config example.yaml`][https://github.com/hadolint/hadolint#configure],
+    [`--ignore RULE`][https://github.com/hadolint/hadolint#rules], `--trusted-registry REGISTRY`, etc
+    See the [example](#full-example) below.
 
-- `nomad-fmt` - Run [`nomad fmt`](https://developer.hashicorp.com/nomad/docs/commands/fmt) on Nomad manifests.
+- `nomad-fmt` - Run [`nomad fmt`](https://developer.hashicorp.com/nomad/commands/fmt) on Nomad manifests.
 
-- `packer-validate` - Run [`packer validate`](https://www.packer.io/docs/commands/validate.html) on JSON files.
-
-[hadolint-configure]: https://github.com/hadolint/hadolint#configure
-[hadolint-rules]: https://github.com/hadolint/hadolint#rules
+- `packer-validate` - Run [`packer validate`](https://developer.hashicorp.com/packer/docs/commands/validate)
+  on JSON files.
 
 ## How to install
 
 1. Install dependencies:
    - [pre-commit](https://pre-commit.com/#install)
    - [Hadolint](https://github.com/hadolint/hadolint/releases) (for `hadolint`)
-   - [Packer](https://www.packer.io/downloads/) (for `packer-validate`)
+   - [Nomad](https://developer.hashicorp.com/nomad/install) (for `nomad-fmt`)
+   - [Packer](https://developer.hashicorp.com/packer/install) (for `packer-validate`)
 
-2. Install the pre-commit hook globally:
+1. Install the pre-commit hook globally:
 
-    ```console
-    $ pre-commit init-templatedir -t pre-commit ~/.git-template
+    ```bash
+    pre-commit init-templatedir -t pre-commit ~/.git-template
     ```
 
-3. Create the `.pre-commit-config.yaml` file:
+1. Create the `.pre-commit-config.yaml` file:
 
-    ```console
-    $ cd /path/to/my/repo/
-    $ vim .pre-commit-config.yaml
+    ```bash
+    cd /path/to/my/repo/
+    vim .pre-commit-config.yaml
     ```
 
     **Tip:** use the example from the next section as a start point.
 
-4. Run:
+1. Run:
 
-    ```console
-    $ pre-commit run -a
+    ```bash
+    pre-commit run -a
     ```
 
 ## Full example
 
 ```yaml
 # .pre-commit-config.yaml
-
 repos:
   - repo: https://github.com/flaudisio/pre-commit-hooks
     rev: v0.11.0
