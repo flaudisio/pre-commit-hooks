@@ -7,8 +7,8 @@ Miscellaneous hooks for [pre-commit](https://pre-commit.com/).
 - `check-zero-width-spaces` - Forbid files which have one or more zero width spaces (U+200B).
 
 - `hadolint` - Run [Hadolint](https://github.com/hadolint/hadolint) on Dockerfiles.
-  - You may use any Hadolint CLI argument, e.g. [`--config example.yaml`][https://github.com/hadolint/hadolint#configure],
-    [`--ignore RULE`][https://github.com/hadolint/hadolint#rules], `--trusted-registry REGISTRY`, etc
+  - You may use any Hadolint CLI argument, e.g. [`--config example.yaml`](https://github.com/hadolint/hadolint#configure),
+    [`--ignore RULE`](https://github.com/hadolint/hadolint#rules), `--trusted-registry REGISTRY`, etc
     See the [example](#full-example) below.
 
 - `nomad-fmt` - Run [`nomad fmt`](https://developer.hashicorp.com/nomad/commands/fmt) on Nomad manifests.
