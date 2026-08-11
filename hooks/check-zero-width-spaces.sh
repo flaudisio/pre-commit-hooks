@@ -4,9 +4,9 @@ set -e
 set -u
 set -o pipefail
 
-ZeroWidthSpace="$( printf '%b' '\u200b' )"
+ZERO_WIDTH_SPACE="$( printf '%b' '\u200b' )"
 
-main()
+function main()
 {
     local filepath
     local exit_code=0
@@ -15,7 +15,7 @@ main()
     local line_number
 
     for filepath in "$@" ; do
-        found_lines="$( grep -n "$ZeroWidthSpace" "$filepath" || true )"
+        found_lines="$( grep -n "$ZERO_WIDTH_SPACE" -- "$filepath" || true )"
 
         if [[ -z "$found_lines" ]] ; then
             continue
