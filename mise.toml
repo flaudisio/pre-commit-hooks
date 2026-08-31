@@ -1,6 +1,6 @@
 [tools]
 "pipx:bump-my-version" = "1"
-shellcheck = "0.10"
+shellcheck = "0.11"
 
 [tasks.pre-commit]
 description = "Run pre-commit"
