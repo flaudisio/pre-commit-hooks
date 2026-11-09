@@ -66,7 +66,7 @@ The steps are the same for both runners; substitute `prek` for `pre-commit` wher
 # .pre-commit-config.yaml
 repos:
   - repo: https://github.com/flaudisio/pre-commit-hooks
-    rev: v0.11.1
+    rev: v0.12.0
     hooks:
       - id: check-zero-width-spaces
       - id: hadolint
