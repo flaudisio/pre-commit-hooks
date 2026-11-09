@@ -1,53 +1,70 @@
 #!/usr/bin/env bash
 
-set -e
 set -u
 set -o pipefail
 
-# Colors
-CBold=''
-CError=''
-CNormal=''
+TEMP_FILE=''
 
-# Setup
-TempFile="$( mktemp /tmp/pre-commit-packer-validate-XXXXXX.log )"
+# Colors, filled in by main()
+C_BOLD=''
+C_ERROR=''
+C_NORMAL=''
 
-trap 'rm -f "$TempFile"' EXIT
+trap 'rm -f -- "$TEMP_FILE"' EXIT
 
-main()
+function print_error()
+{
+    printf '%b\n' "$*" >&2
+}
+
+function main()
 {
     local filepath
+    local template_dir
     local exit_code=0
 
-    # Configure colors
-    if [[ -n "$TERM" ]] ; then
-        CBold='\e[1m'
-        CError='\e[91m'  # Light red
-        CNormal='\e[0m'
+    if [[ -n "${TERM:-}" ]] ; then
+        C_BOLD='\e[1m'
+        C_ERROR='\e[91m' # Light red
+        C_NORMAL='\e[0m'
+    fi
+
+    if ! TEMP_FILE="$( mktemp /tmp/pre-commit-packer-validate-XXXXXX.log )" ; then
+        print_error 'Error: could not create a temporary file'
+        exit 1
     fi
 
     for filepath in "$@" ; do
         # Packer must run in the template's directory so relative paths
         # can be found (e.g. "../scripts/provision.sh")
-        pushd "$( dirname "$filepath" )" > /dev/null
+        template_dir="$( dirname "$filepath" )"
 
-        if ! packer validate "$( basename "$filepath" )" > "$TempFile" 2>&1 ; then
+        if ! pushd "$template_dir" > /dev/null ; then
+            print_error "Error: could not enter ${template_dir}"
+            exit_code=1
+            continue
+        fi
+
+        if ! packer validate "$( basename "$filepath" )" > "$TEMP_FILE" 2>&1 ; then
             exit_code=1
 
-            echo -e "${CBold}${CError}==> ${filepath}${CNormal}" >&2
-            echo >&2
+            print_error "${C_BOLD}${C_ERROR}==> ${filepath}${C_NORMAL}"
+            print_error ''
 
             # Delete trailing blank lines at end of file and print a new line
             # for consistent readability
             # Ref: https://stackoverflow.com/a/23894449
-            tac "$TempFile" | sed -e '/./,$!d' | tac >&2
-            echo >&2
+            tac "$TEMP_FILE" | sed -e '/./,$!d' | tac >&2
+            print_error ''
         fi
 
-        popd > /dev/null
+        if ! popd > /dev/null ; then
+            print_error 'Error: could not return to the original directory'
+            exit_code=1
+        fi
     done
 
-    exit $exit_code
+    exit "$exit_code"
 }
 
 

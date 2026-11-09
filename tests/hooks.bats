@@ -18,8 +18,8 @@ setup() {
     run --separate-stderr "$REPO_ROOT/hooks/check-zero-width-spaces.sh" "$BATS_TEST_TMPDIR/bad.txt"
 
     [ "$status" -eq 1 ]
-    [[ "$stderr" == *"bad.txt:1:"* ]]
-    [[ "$stderr" == *"Found one or more zero-width-spaces (U+200B)"* ]]
+    [ "${stderr_lines[0]}" = \
+        "$BATS_TEST_TMPDIR/bad.txt:1 Found one or more zero-width-spaces (U+200B)" ]
 }
 
 @test "check-zero-width-spaces: reports every offending line" {
@@ -28,8 +28,9 @@ setup() {
     run --separate-stderr "$REPO_ROOT/hooks/check-zero-width-spaces.sh" "$BATS_TEST_TMPDIR/bad.txt"
 
     [ "$status" -eq 1 ]
-    [[ "$stderr" == *"bad.txt:1:"* ]]
-    [[ "$stderr" == *"bad.txt:3:"* ]]
+    [[ "$stderr" == *"bad.txt:1 Found"* ]]
+    [[ "$stderr" == *"bad.txt:3 Found"* ]]
+    [[ "$stderr" != *"clean"* ]]
 }
 
 @test "check-zero-width-spaces: accepts clean files" {
@@ -63,6 +64,13 @@ setup() {
     [ "$( grep -c '^hadolint|' "$STUB_LOG" )" -eq 2 ]
 }
 
+@test "hadolint: succeeds without arguments" {
+    run "$REPO_ROOT/hooks/hadolint.sh"
+
+    [ "$status" -eq 0 ]
+    [ ! -e "$STUB_LOG" ]
+}
+
 @test "packer-validate: runs packer from the template's directory" {
     local template_dir="$BATS_TEST_TMPDIR/templates"
     mkdir -p "$template_dir"
@@ -79,11 +87,22 @@ setup() {
     mkdir -p "$template_dir"
     echo '{}' > "$template_dir/main.json"
 
-    STUB_EXIT=1 run --separate-stderr \
+    STUB_EXIT=1 TERM=xterm run --separate-stderr \
         "$REPO_ROOT/hooks/packer-validate.sh" "$template_dir/main.json"
 
     [ "$status" -eq 1 ]
     [[ "$stderr" == *"==> $template_dir/main.json"* ]]
+}
+
+@test "packer-validate: prints escape codes as colors, not literally" {
+    local template_dir="$BATS_TEST_TMPDIR/templates"
+    mkdir -p "$template_dir"
+    echo '{}' > "$template_dir/main.json"
+
+    STUB_EXIT=1 TERM=xterm run --separate-stderr \
+        "$REPO_ROOT/hooks/packer-validate.sh" "$template_dir/main.json"
+
+    [[ "$stderr" != *'\e['* ]]
 }
 
 @test "nomad-fmt: forwards the arguments unchanged" {

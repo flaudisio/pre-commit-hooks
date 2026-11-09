@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
-set -e
 set -u
 set -o pipefail
 
-HadolintArgs=()
+HADOLINT_ARGS=()
 
-add_hadolint_arg()
+function append_hadolint_arg()
 {
     local param
     local value
@@ -16,37 +15,31 @@ add_hadolint_arg()
         param="${1%% *}"
         value="${1#* }"
 
-        HadolintArgs+=("$param" "$value")
+        HADOLINT_ARGS+=("$param" "$value")
     else
         # Use $1 as is, e.g. "--param" or "--param=value"
-        HadolintArgs+=("$1")
+        HADOLINT_ARGS+=("$1")
     fi
 }
 
-main()
+function main()
 {
     local filepath
     local exit_code=0
 
-    while true ; do
-        case $1 in
-            -*)
-                # Forward argument to Hadolint
-                add_hadolint_arg "$1"
-                shift
-            ;;
-
-            *) break ;;
-        esac
+    # pre-commit passes the consumer's args before the file list
+    while [[ $# -gt 0 && "$1" == -* ]] ; do
+        append_hadolint_arg "$1"
+        shift
     done
 
     for filepath in "$@" ; do
-        if ! hadolint "${HadolintArgs[@]}" "$filepath" ; then
+        if ! hadolint "${HADOLINT_ARGS[@]}" "$filepath" ; then
             exit_code=1
         fi
     done
 
-    exit $exit_code
+    exit "$exit_code"
 }
 
 
