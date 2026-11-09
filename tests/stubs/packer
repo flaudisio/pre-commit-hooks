@@ -1,0 +1,5 @@
+#!/bin/sh
+# Records each invocation so tests can assert argv and cwd without the real tool.
+{ printf '%s|%s|%s\n' "$( basename "$0" )" "$PWD" "$*"; } >> "${STUB_LOG:?}"
+
+exit "${STUB_EXIT:-0}"

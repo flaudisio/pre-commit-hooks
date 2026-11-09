@@ -1,33 +1,46 @@
-# pre-commit hooks
+# Hooks for pre-commit and prek
 
-Miscellaneous hooks for [pre-commit](https://pre-commit.com/).
+Miscellaneous hooks for [pre-commit](https://pre-commit.com/) and
+[prek](https://github.com/j178/prek), its Rust drop-in replacement. Both consume the same
+`.pre-commit-hooks.yaml` manifest, so every hook below works with either runner.
 
 ## Hooks available
 
 - `check-zero-width-spaces` - Forbid files which have one or more zero width spaces (U+200B).
 
 - `hadolint` - Run [Hadolint](https://github.com/hadolint/hadolint) on Dockerfiles.
-  - You may use any Hadolint CLI argument, e.g. [`--config example.yaml`](https://github.com/hadolint/hadolint#configure),
-    [`--ignore RULE`](https://github.com/hadolint/hadolint#rules), `--trusted-registry REGISTRY`, etc
-    See the [example](#full-example) below.
+  - You may use any Hadolint CLI argument, e.g.
+    [`--config example.yaml`](https://github.com/hadolint/hadolint#configure),
+    [`--ignore RULE`](https://github.com/hadolint/hadolint#rules),
+    `--trusted-registry REGISTRY`, etc. See the [example](#full-example) below.
 
-- `nomad-fmt` - Run [`nomad fmt`](https://developer.hashicorp.com/nomad/commands/fmt) on Nomad manifests.
+- `nomad-fmt` - Run [`nomad fmt`](https://developer.hashicorp.com/nomad/commands/fmt) on Nomad
+  manifests.
 
-- `packer-validate` - Run [`packer validate`](https://developer.hashicorp.com/packer/docs/commands/validate)
-  on JSON files.
+- `packer-validate` - Run
+  [`packer validate`](https://developer.hashicorp.com/packer/docs/commands/validate) on JSON files.
 
 ## How to install
 
+The steps are the same for both runners; substitute `prek` for `pre-commit` where you see it.
+
 1. Install dependencies:
-   - [pre-commit](https://pre-commit.com/#install)
+   - [pre-commit](https://pre-commit.com/#install) or
+     [prek](https://github.com/j178/prek#installation)
    - [Hadolint](https://github.com/hadolint/hadolint/releases) (for `hadolint`)
    - [Nomad](https://developer.hashicorp.com/nomad/install) (for `nomad-fmt`)
    - [Packer](https://developer.hashicorp.com/packer/install) (for `packer-validate`)
 
-1. Install the pre-commit hook globally:
+1. Enable the hook. With pre-commit, globally for future repos:
 
     ```bash
     pre-commit init-templatedir -t pre-commit ~/.git-template
+    ```
+
+    With prek, inside each repository:
+
+    ```bash
+    prek install
     ```
 
 1. Create the `.pre-commit-config.yaml` file:
@@ -37,12 +50,14 @@ Miscellaneous hooks for [pre-commit](https://pre-commit.com/).
     vim .pre-commit-config.yaml
     ```
 
-    **Tip:** use the example from the next section as a start point.
+    **Tip:** use the example from the next section as a start point: prek reads it unchanged.
 
 1. Run:
 
     ```bash
     pre-commit run -a
+    # or
+    prek run -a
     ```
 
 ## Full example
