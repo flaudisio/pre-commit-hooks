@@ -18,11 +18,18 @@ application code, only the four scripts in `hooks/` and the YAML manifests consu
 
 ## Checks
 
-- `mise run lint` — the only test suite (repo has no unit tests); runs `prek run --all-files` and
-  reads the unchanged `.pre-commit-config.yaml`.
-- A hook change is verified by running the script directly on a sample file and checking the exit
-  code and stderr, since pre-commit's own filters are what the manifest provides.
-- `yamllint` uses `--strict`, so warnings fail the build.
+- `mise run test` — bats suites in `tests/`. `hooks.bats` runs each script against the stub
+  binaries in `tests/stubs/` (records argv + cwd, exits via `STUB_EXIT`), so no hadolint, packer or
+  nomad install is needed. `manifest.bats` installs hooks from `.pre-commit-hooks.yaml` via both
+  `pre-commit try-repo` and `prek try-repo` to check the `types`/`files` filters.
+- `mise run lint` — lints this repo with prek; CI runs it before the tests.
+- Both runners are pinned in `mise.toml` (`pipx:pre-commit`, `prek`), so `mise install` is all a
+  fresh checkout needs before `mise run test`.
+- `yamllint` runs with `--strict`, so its warnings fail the build.
+- Add a case for any new script behavior or manifest filter. Fixtures must be committed in the
+  test's scratch repo: `--all-files` reads `git ls-files`, so untracked files are silently skipped.
+- Assertions on hook messages use `run --separate-stderr` and `$stderr`; bats captures stdout only
+  for plain `run`.
 - `nomad-fmt.sh` is deliberately POSIX `sh`; the other scripts are `bash` with
   `set -u -o pipefail` (via separate `set` lines).
 
