@@ -1,7 +1,9 @@
 # AGENTS.md
 
-Published pre-commit hook collection (`flaudisio/pre-commit-hooks`). There is no application code:
-four scripts in `hooks/` plus YAML manifests that consumers pin by git tag (`rev: vX.Y.Z`).
+Published hook collection for `pre-commit` and its Rust drop-in `prek`
+(`flaudisio/pre-commit-hooks`). Both runners consume the same `.pre-commit-hooks.yaml`; there is no
+application code, only the four scripts in `hooks/` and the YAML manifests consumers pin by git tag
+(`rev: vX.Y.Z`).
 
 ## Layout
 
@@ -35,6 +37,8 @@ four scripts in `hooks/` plus YAML manifests that consumers pin by git tag (`rev
   paths from there.
 - New scripts need the executable bit — `language: script` fails without it — plus an entry in
   `.pre-commit-hooks.yaml` and a bullet in the README hook list.
+- Hook behavior must stay runner-neutral: pre-commit and prek both invoke the same manifest, so keep
+  documented commands paired (`pre-commit run -a` / `prek run -a`) when editing the README.
 
 ## Releases
 
